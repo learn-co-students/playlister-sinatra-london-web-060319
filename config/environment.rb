@@ -1,11 +1,14 @@
 ENV['SINATRA_ENV'] ||= "development"
 
+
+require 'rack-flash'
 require 'bundler/setup'
 Bundler.require(:default, ENV['SINATRA_ENV'])
 
+
 def fi_check_migration
   begin
-    ActiveRecord::Migration.check_pending!
+    ActiveRecord::Migration[5.2].check_pending!
   rescue ActiveRecord::PendingMigrationError
     raise ActiveRecord::PendingMigrationError.new <<-EX_MSG
 Migrations are pending. To resolve this issue, run:
